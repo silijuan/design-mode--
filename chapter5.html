@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+</head>
+<body>
+	<form  id="reg-form" action="save.php" method="get">
+		<input type="text" name='faver1' value="1">
+		<input type="text" name='faver2' value="2">
+		<input type="text" name='faver3' value="3">
+		<input type="submit" value="提交">
+		<!-- type = "submit" 用在表单内,里面有类似的默认方法封装,普通单击就是提交所在表单 -->
+		<!-- submit()既是DOM对象的方法也是jq对象的方法 -->
+	</form>
+	<form action="" id="reg-results">
+		<input type="text" name='faver4' value="4">
+		<input type="text" name='faver5' value="5">
+		<input type="text" name='faver6' value="6">
+	</form>
+	<script src="jquery.min.js"></script>
+	<script>
+		var GiantCorp=window.GiantCorp||{};
+    	//regPage singleton 
+    	GiantCorp.RegPage={
+		    //constants
+		    FORM_ID:'reg-form',
+		    OUTPUT_ID:'reg-results',
+		    //form handling methods
+		    handleSubmit:function(e){
+		    	e.preventDefault();
+		    	var data={};
+		    	var inputs=GiantCorp.RegPage.formEl.getElementsByTagName('input');
+		        //collect the values of the input fields in the form
+		        for(var i=0,len=inputs.length;i<len;i++){
+		        	data[inputs[i].name]=inputs[i].value;
+		        }
+		        //send the form values back to the server
+		        GiantCorp.RegPage.sendRegistration(data);
+		    },
+		    sendRegistration:function(data){
+		        //make an xhr request and call displayResult() when the response is received
+		        
+		    },
+		    displayResult:function(response){
+		        //output the response directly into the output element.we are assuming the server will send back formatted html
+		        GiantCorp.RegPage.outputEl.innerHTML=response;
+		    },
+		    //initialization method
+		    init:function(){
+		        //get the form and output elements
+		        GiantCorp.RegPage.formEl=$(GiantCorp.RegPage.FORM_ID);
+		        GiantCorp.RegPage.outputEl=$(GiantCorp.RegPage.OUTPUT_ID);
+		        //hijack the form submission
+		        addEvent(GiantCorp.RegPage.formEl,'submit',GiantCorp.RegPage.handleSubmit);
+		    }
+		};
+		//invoke the initialization method after the page loads
+		addLoadEvent(GiantCorp.RegPage.init)
+
+		function addEvent(elm, evType, fn, useCapture) {
+			if (elm.addEventListener) {
+		        elm.addEventListener(evType, fn, useCapture);//DOM2.0
+		        return true;
+		    }
+		    else if (elm.attachEvent) {
+		        var r = elm.attachEvent('on' + evType, fn);//IE5+
+		        return r;
+		    }
+		    else {
+		        elm['on' + evType] = fn;//DOM 0
+		    }
+		}
+		function addLoadEvent(func) {
+			var oldonload = window.onload;//将现有的事件处理函数的值存入变量中
+			if (typeof window.onload != 'function') {
+				window.onload = func;//如果这个事件处理函数没有绑定任何函数，就把新函数添加给它
+			} else {
+				window.onload = function() {
+					oldonload();
+					func();//如果已经绑定了函数，就把新函数追加到现有指令的末尾
+				}
+			}
+		}
+
+</script>
+</body>
+</html>

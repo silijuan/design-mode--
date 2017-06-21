@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+    </head>
+    <body>
+    <script>
+    /*var BicycleShop=function(){};
+    BicycleShop.prototype={
+    	sellBicycle:function(model){
+    		var bicycle;
+    		switch(model){
+    			case 'the Speedster':
+    				bicycle=new Speedster();
+    				break;
+    			case 'the Lowrider':
+    				bicycle=new Lowrider();
+    				break;
+    			case 'the Comfort Cruiser':
+    			default:
+    				bicycle=new ComfortCruiser();
+    		}
+    		Interface.ensureImplements(bicycle,Bicycle);
+    		bicycle.assemble();
+    		bicycle.wash();
+    		return bicycle;
+    	}
+    };
+
+    */
+    // Constructor
+	/*
+	 * @param name String 接口的名字
+	 * @param methods Array 接口里面定义的方法
+	*/
+   /* var Interface = function(name, methods){
+	    //如果购造函数的参数不等于2个，那么抛出异常
+	    if (arguments.length != 2) {
+	        throw new Error("Interface constructor called with " + arguments.length +
+	        "arguments,but expected exactyl 2.")
+	    }
+	    this.name = name;
+	    this.methods = [];
+	    //方法数组，保证传进来的methods数组中，每一个元素都是字符串类型
+	    for (var i = 0, len = methods.length; i < len; i++) {
+	        if (typeof methods[i] !== "string") {
+	            throw new Error("Interface constructor expects methods names to bo " +
+	            "passed in asastring.");
+	        }
+	        this.methods.push(methods[i]);
+	    }
+	};
+    
+    //Static class methods
+    Interface.ensureImplements = function(object) {
+    	if (arguments.length < 2) {
+    		//如果参数少于2个，抛出异常，object是待判断实现接口的对象
+    		throw new Error("Function Interface.ensureImplements expects " +
+    			"arguments two and above to be instances of Interface.");
+    	}
+
+    	 for (var i = 1, len = arguments.length; i < len; i++) {
+                //inter_face为接口，一定要实现Interface类
+                //书中使用interface，因是JavaScript中保留字，所以暂替换为inter_face
+                var inter_face = arguments[i];
+                if (inter_face.constructor !== Interface) {
+                        throw new Error("Function Interface.ensureImplementsexpects arguments " +
+                        "two and above to be instances of Interface.");
+                }
+                for (var j = 0, methodsLen = inter_face.methods.length; j < methodsLen; j++) {
+                        //对象中是否含有接口中定义的方法
+                        var method = inter_face.methods[j];
+                        if (!object[method] || typeof object[method] !== 'function') {
+                                throw new Error("Function Interface.ensureImplements: object " +
+                                "does not implements the " +
+                                inter_face.name +
+                                "interface.Method " +
+                                method +
+                                "was not found.");
+                        }
+                }
+        }
+    }
+
+    var Bicycle=new Interface('Bicycle',['assemble','wash','ride','repair']);
+    //定义接口Bicycle，实现assemble，wash，ride，repair方法
+   	console.log(Bicycle);
+
+    var Speedster=function(){
+    	
+    };
+    Speedster.prototype={
+    	assemble:function(){
+    		
+    	},
+    	wash:function(){
+
+    	},
+    	ride:function(){
+    		
+    	},
+    	repair:function(){
+    		
+    	}
+    };
+    var californiaCruisers=new BicycleShop();
+    var yourNewBike=californiaCruisers.sellBicycle('the Speedster');
+    */
+
+
+
+
+    /*var BicycleFactory={
+    	//BicycleFactory对象可以供各种类来创建新的自行车实例，这样可供车型的所有信息都在这管理，添加更多车型就很容易了
+    	createBicycle:function(model){
+    		var bicycle;
+    		switch(model){
+    			case 'the Speedster':
+    				bicycle=new Speedster();
+    				break;
+    			case 'the Lowrider':
+    				bicycle=new Lowrider();
+    				break;
+    			case 'the Comfort Cruiser':
+    			default:
+    				bicycle=new ComfortCruiser();
+    		}
+    		Interface.ensureImplements(bicycle,Bicycle);    	
+    		return bicycle;
+    	}
+    }
+    var BicycleShop=function(){};
+    BicycleShop.prototype={
+    	sellBicycle:function(model){
+    		var bicycle=BicycleFactory.createBicycle(model);
+    		bicycle.assemble();
+    		bicycle.wash();
+    		return bicycle;
+    	}
+    };
+    var Bicycle=new Interface('Bicycle',['assemble','wash','ride','repair']);
+    var Speedster=function(){
+    	...
+    };
+    Speedster.prototype={
+    	assemble:function(){
+    		...
+    	},
+    	wash:function(){
+    		...
+    	},
+    	ride:function(){
+    		...
+    	},
+    	repair:function(){
+    		...
+    	}
+    };
+    var californiaCruisers=new BicycleShop();
+    var yourNewBike=californiaCruisers.sellBicycle('the Speedster');*/
+
+   
+   /* //BicycleShop class (abstract)
+    var BicycleShop=function(){};
+    BicycleShop.prototype={
+    	sellBicycle:function(model){
+    		var bicycle=this.createBicycle(model);
+			bicycle.assemble();
+    		bicycle.wash();
+    		return bicycle;
+    	},
+    	createBicycle:function(model){
+    		throw new Error('unsupported operation on an abstract class');
+    	}	
+    };
+
+    //对Bicycle进行一般性操作的代码可以全部写在父类BicycleShop中
+    //而对具体的Bicycle对象进行实例化的工作被留到子类中
+    //一般性的代码被集中在一个位置，而个体性的代码被封装在子类中
+
+    //AcmeBicycleShop class
+    var AcmeBicycleShop=funcion(){};
+    extend(AcmeBicycleShop,BicycleShop);
+    AcmeBicycleShop.prototyoe.createBicycle=function(model){
+    	var bicycle;
+    	switch(model){
+    		case 'the Speedster':
+				bicycle=new AcmeSpeedster();
+				break;
+			case 'the Lowrider':
+				bicycle=new AcmeLowrider();
+				break;
+			case 'the Comfort Cruiser':
+			default:
+				bicycle=new AcmeComfortCruiser();
+		}
+
+    	Interface.ensureImplements(bicycle,Bicycle);
+    	return bicycle;	   	
+    };
+
+    //GeneralProductBicycle class
+    var GeneralProductsBicycle=funcion(){};
+    extend(GeneralProductsBicycle,BicycleShop);
+    GeneralProductsBicycle.prototyoe.createBicycle=function(model){
+    	var bicycle;
+    	switch(model){
+    		case 'the Speedster':
+				bicycle=new GeneralProductsSpeedster();
+				break;
+			case 'the Lowrider':
+				bicycle=new GeneralProductsLowrider();
+				break;
+			case 'the Comfort Cruiser':
+			default:
+				bicycle=new GeneralProductsComfortCruiser();
+		}
+
+    	Interface.ensureImplements(bicycle,Bicycle);
+    	return bicycle;	   	
+    };
+    var Bicycle=new Interface('Bicycle',['assemble','wash','ride','repair']);  
+
+    var alecsCruisers=new AcmeBicycleShop();
+    var yourNewBike=alecsCruisers.sellBicycle('the Lowrider');
+
+    var bobsCruisers=new GeneralProductsBicycle();
+    var yourSecondNewBike=bobsCruisers.sellBicycle('the Lowrider');*/
+
+
+
+
+    /*//XHR工厂
+    var Interface = function(name, methods){
+	    //如果购造函数的参数不等于2个，那么抛出异常
+	    if (arguments.length != 2) {
+	        throw new Error("Interface constructor called with " + arguments.length +
+	        "arguments,but expected exactyl 2.")
+	    }
+	    this.name = name;
+	    this.methods = [];
+	    //方法数组，保证传进来的methods数组中，每一个元素都是字符串类型
+	    for (var i = 0, len = methods.length; i < len; i++) {
+	        if (typeof methods[i] !== "string") {
+	            throw new Error("Interface constructor expects methods names to bo " +
+	            "passed in asastring.");
+	        }
+	        this.methods.push(methods[i]);
+	    }
+	};
+
+    //AjaxHandler interface
+    var AjaxHandler=new Interface('AjaxHandler',['request','createXhrObject']);
+    //SimpleHandler class
+    var SimpleHandler=function(){};//implements AjaxHandler
+    SimpleHandler.prototype={
+    	request:function(method,url,callback,postVars){
+    		var xhr=this.createXhrObject();
+    		console.log(typeof xhr);
+    		xhr.onreadystatechange=function(){
+    			if(xhr.readyState!==4) return ;
+    			(xhr.status==200) ?callback.success(xhr.responseText,xhr.responseXML):callback.failure(xhr.status);
+    		};
+    		xhr.open(method,url,true);
+    		if(method!=='post') postVars=null;
+    		xhr.send(postVars);
+    	},
+    	createXhrObject:function(){
+    		//Factory method
+    		var methods=[
+    		function(){
+    			return new XMLHttpRequest();
+    		},
+    		function(){
+    			return new ActiveXObject("Msxml2.XMLHTTP");
+    		},
+    		function(){
+    			return new ActiveXObject("Microsoft.XMLHTTP");
+    		}
+    		];
+    		for (var i = 0,len=methods.length; i < len; i++) {
+    			try{
+    				methods[i]();
+    			}
+    			catch(e){
+    				continue;
+    			}
+    			//if we reach this point ,none of the methods worked
+    			this.createXhrObject=methods[i];//memoize the method
+    			return methods[i]();
+    		};
+    		throw new error('SimpleHandler:Could not create an XHR object');
+    	}
+    };
+    var myHandler=new SimpleHandler();
+    var callback={
+    	success:function(responseText){ alert('success:'+responseText); },
+    	failure:function(statusCode){ alert('success:'+statusCode); }
+    };
+    myHandler.request('get','save.php',callback);*/
+
+
+
+    //QueueHandler会在发起新的请求之前先确保所有请求都已经成功处理
+    //OfflineHandler会在用户处于离线状态时把请求缓存起来
+    
+    /*var SimpleHandler=function(){};//implements AjaxHandler
+    SimpleHandler.prototype={
+    	request:function(method,url,callback,postVars){
+    		var xhr=this.createXhrObject();
+    		console.log(typeof xhr);
+    		xhr.onreadystatechange=function(){
+    			if(xhr.readyState!==4) return ;
+    			(xhr.status==200) ?callback.success(xhr.responseText,xhr.responseXML):callback.failure(xhr.status);
+    		};
+    		xhr.open(method,url,true);
+    		if(method!=='post') postVars=null;
+    		xhr.send(postVars);
+    	},
+    	createXhrObject:function(){
+    		//Factory method
+    		var methods=[
+    		function(){
+    			return new XMLHttpRequest();
+    		},
+    		function(){
+    			return new ActiveXObject("Msxml2.XMLHTTP");
+    		},
+    		function(){
+    			return new ActiveXObject("Microsoft.XMLHTTP");
+    		}
+    		];
+    		for (var i = 0,len=methods.length; i < len; i++) {
+    			try{
+    				methods[i]();
+    			}
+    			catch(e){
+    				continue;
+    			}
+    			//if we reach this point ,none of the methods worked
+    			this.createXhrObject=methods[i];//memoize the method
+    			return methods[i]();
+    		};
+    		throw new error('SimpleHandler:Could not create an XHR object');
+    	}
+    };
+
+    var QueueHandler=function(){
+    	//implements AjaxHandler
+    	this.queue=[];
+    	this.requestInProgress=false;
+    	this.retryDelay=5;//in seconds
+    };
+    extend(QueueHandler,SimpleHandler);
+    QueueHandler.prototype.request=function(method,url,callback,postVars,override){
+    	if(this.requestInProgress&&!override){
+    		this.queue.push({
+    			method:method,
+    			url:url,
+    			callback:callback,
+    			postVars:postVars
+    		});
+    	}else{
+    		this.requestInProgress=true;
+    		var xhr=this.createXhrObject();
+    		var that=this;
+    		xhr.onreadystatechange=function(){
+    			if(xhr.readyState!==4) return;
+    			if(xhr.status==200){
+    				callback.success(xhr.responseText,xhr.responseXML);
+    				that.advanceQueue();
+    			}else{
+    				callback.failure(xhr.status);
+    				setTimeout(function(){
+    					that.request(method,url,callback,postVars,true); }, 
+    					that.retryDelay*1000);
+    			}
+    		};
+    		xhr.open(method,url,true);
+    		if(method!=='post') postVars=null;
+    		xhr.send(postVars);
+    	}
+    };
+    QueueHandler.prototype.advanceQueue=function(){
+    	if(this.queue.length===0){
+    		this.requestInProgress=false;
+    		return;
+    	}
+    	var req=this.queue.shift();
+    	this.request(req.method,req.url,req.callback,req.postVars,true)
+    };
+    var OfflineHandler=function(){
+    	//implements AjaxHandler
+    	this.stroredRequest=[];
+    };
+    extend(OfflineHandler,SimpleHandler);
+    OfflineHandler.prototype.request=function(method,url,callback,postVars){
+    	if(XhrManager.isOffline()){
+    		this.storeRequests.push({
+    			method:method,
+    			url:url,
+    			callback:callback,
+    			postVars:postVars
+    		});
+    	}else{
+    		this.flushStoredRequest
+    	}
+    }*/
+
+
+    //7.5 RSS阅读器
+    
+    var DisplayModule=new Interface('DisplayModule',['append','remove','clear']);
+
+    var ListDisplay=function(id,parent){
+    	//implements DisplayModule
+    	this.list=document.createElement('ul');
+    	this.list.id=id;
+    	parent.appendChild(this.list);
+    };
+    ListDisplay.prototyoe={
+    	append:function(text){
+    		var newEl=document.createElement('li');
+    		this.list.appendChild(newEl);
+    		newEl.innerHTML=text;
+    		return newEl;
+    	},
+    	remove:function(el){
+    		this.list.removeChild(el);
+    	},
+    	clear:function(){
+    		this.list.innerHTML='';
+    	}
+    };
+
+    var conf={
+    	id:'cnn-top-stories',
+    	feedUrl:'http://rss.cnn.com/rss/cnn_topstories.rss',
+    	updateInterval:60,
+    	parent:$('feed-readers')	
+    };
+
+    var FeedReader=function(display,xhrHandler,conf){
+    	fetchFeed:function(){
+    		var that=this;
+    		var callback={
+    			success:function(text,xml){
+    				that.parseFeed(text,xml);
+    			},
+    			failure:function(status){
+    				that.showError(status);
+    			}
+    		};
+    		this.xhrHandler.request('get','feedProxy.php?feed='+this.conf.feedUrl,callback);
+    	},
+    	parseFeed:function(responseText,responseXML){
+    		this.display.clear();
+    		var items=responseXML.getElementsByTagName('item');
+    		for (var i = 0; i < items.length; i++) {
+    			var title=items[i].getElementsByTagName('title')[0];
+    			var link=items[i].getElementsByTagName('link')[0];
+    			this.display.append('<a href="'+link.firstChild.data+'">'+title.firstChild.data+'</a>');
+    		}
+    	},
+    	showError:function(statusCode){
+    		this.display.clear();
+    		this.display.append('Error fetching feed');
+    	},
+    	stopUpdates:function(){
+    		clearInterval(this.interval);
+    	},
+    	startUpdates:function(){
+    		this.fetchFeed();
+    		var that=this;
+    		this.interval=setInterval(function(){
+                that.fetchFeed();
+    		}, this.conf.updateInterval*1000);
+    	}
+    };
+
+    var FeedManager={
+    	createFeedReader:function(conf){
+    		var displayModule=new ListDisplay(conf.id+'-display',conf.parent);
+    		Interface.ensureImplements(displayModule,DisplayModule);
+
+    		var xhrHandler=XhrManager.createXhrHandler();
+    		Interface.ensureImplements(xhrHandler,AjaxHandler);
+    		return new FeedReader(displayModule,xhrHandler,conf);
+    	}
+    };
+    </script>
+    </body>
+</html>

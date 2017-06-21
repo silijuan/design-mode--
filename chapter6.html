@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <style>
+			#test-1,#test-2{
+				height: 100px;
+				width: 200px;
+			}
+        </style>
+    </head>
+    <body>
+    <div id="test-1"></div>
+    <div id="test-2"></div>
+    <div id="example"></div>
+    <script src="jquery.min.js"></script>
+    <script>
+
+   /* //arguments
+    function howManyArgs() {
+    	console.log(arguments.length);
+    }
+    howManyArgs("string", 45);
+    howManyArgs();
+    howManyArgs(12);*/
+
+    /*function $(){
+    	var elements=[];
+    	for(var i=0;i<arguments.length;i++){
+    		var element=arguments[i];
+    		if(typeof element==='string'){
+    			element=document.getElementById(element);
+    		}
+    		if(arguments.length===1){
+    			return element;
+    		}
+    		elements.push(element);
+    	}
+    	return elements;
+    }*/
+
+   /* 
+   //6.1
+   (function(){
+    	//private method
+    	function _$(els){
+    		this.elements=[];
+    		for(var i=0;i<els.length;i++){
+    			var element=els[i];
+    			if(typeof element==='string'){
+    				element=document.getElementById(element);
+    			}   			
+    			this.elements.push(element);
+    		}
+    	}
+    	window.$=function(){
+    		return new _$(arguments);
+    	};	
+    })()*/
+
+
+     /*(function(){
+    	//private method
+    	function _$(els){
+    		this.elements=[];
+    		for(var i=0;i<els.length;i++){
+    			var element=els[i];
+    			if(typeof element==='string'){
+    				element=document.getElementById(element);
+    			} 
+    			// if(els.length===1){
+    			// 	return element;
+    			// }  			
+    			this.elements.push(element);
+    		}
+    	}
+
+    	_$.prototype={
+    		each:function(fn){
+    			for(var i=0,len=this.elements.length;i<len;i++){
+    				fn.call(this,this.elements[i]);
+    			}
+    			return this;
+    		},
+    		setStyle:function(prop,val){
+    			this.each(function(el){
+    				el.style[prop]=val;
+    			});
+    			return this;
+    		},
+    		show:function(){
+    			var that=this;
+    			this.each(function(el){
+    				that.setStyle('display','block');
+    			});
+    			return this;
+    		},
+    		addEvent:function(type,fn){
+    			var add=function(el){
+    				if(window.addEventListener){
+    					el.addEventListener(type, fn, false);
+    				}
+    				else if(window.attachEvent){
+    					el.attachEvent('on'+type,fn);
+    				}
+    			};
+    			this.each(function(el){
+    				add(el);
+    			});
+    			return this;
+    		}
+    	};
+
+    	window.$=function(){
+    		return new _$(arguments);
+    	};	
+    })()
+
+    $(window).addEvent('load',function(){
+    	$('test-1','test-2').show().
+    	setStyle('background','red').
+    	addEvent('click',function(e){
+    		$(this).setStyle('background','green');
+    	})
+	});*/  
+
+	//6.2
+//对_$构造函数进行扩充，创建一个javascript库	
+/*	Function.prototype.method=function(name,fn){
+		//用语法糖帮助扩充
+		this.prototype[name]=fn;
+		return this;
+	};
+	(function(){
+    	//private method
+    	function _$(els){
+    		this.elements=[];
+    		for(var i=0;i<els.length;i++){
+    			var element=els[i];
+    			if(typeof element==='string'){
+    				element=document.getElementById(element);
+    			} 
+    			// if(els.length===1){
+    			// 	return element;
+    			// }  			
+    			this.elements.push(element);
+    		}
+    	}
+
+    	// events
+    	_$.method('addEvent',function(type,fn){
+    		...
+    	}).method('getEvent',function(e){
+    		...
+    	}).
+    	//DOM
+    	method('addClass',function(className){
+    		...
+    	}).method('removeClass',function(className){
+    		...
+    	}).method('replaceClass',function(oldClass,newClass){
+
+    	}).method('hasClass',function(className){
+    		...
+    	}).method('getStyle',function(prop){
+			...
+    	}).method('setStyle',function(prop,value){
+    		...
+    	}).
+    	//AJAX
+    	.method('load',function(uri,method){
+    		...
+    	});
+
+    	window.$=function(){
+    		return new _$(arguments);
+    	};	
+    })()
+
+    $('example').show();*/
+
+    //如果现有的方法中也定义了一个$函数,如果单纯的为函数改名，这样解决不理想
+    //更好的解决方法是添加一个安装器installer
+    Function.prototype.method=function(name,fn){
+		this.prototype[name]=fn;
+		return this;
+	};
+	(function(){
+    	//private method
+    	function _$(els){
+    		this.elements=[];
+    		for(var i=0;i<els.length;i++){
+    			var element=els[i];
+    			if(typeof element==='string'){
+    				element=document.getElementById(element);
+    			} 
+    			// if(els.length===1){
+    			// 	return element;
+    			// }  			
+    			this.elements.push(element);
+    		}
+    	}
+
+    	// events
+    	_$.method('addEvent',function(type,fn){
+    		...
+    	}).method('getEvent',function(e){
+    		...
+    	}).
+    	//DOM
+    	method('addClass',function(className){
+    		...
+    	}).method('removeClass',function(className){
+    		...
+    	}).method('replaceClass',function(oldClass,newClass){
+
+    	}).method('hasClass',function(className){
+    		...
+    	}).method('getStyle',function(prop){
+    		...
+    	}).method('setStyle',function(prop,value){
+    		...
+    	}).
+    	//AJAX
+    	method('load',function(uri,method){
+    		...
+    	});
+
+    	//installer
+    	window.installHelper=function(scope,interface){
+    		scope[interface]=function(){
+    			return new _$(arguments);
+    		}
+    	};   	
+    })()
+
+    //使用时
+    installHelper(window,'$');
+
+    $('example').show();
+	
+    </script>
+    </body>
+    	
+</html>

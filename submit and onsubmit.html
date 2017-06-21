@@ -1,0 +1,59 @@
+<html>  
+<head>  
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">  
+</head>  
+<body>
+    <form id='myform' target="_top" action="text.action" method="get">  
+        <input type="text" name="w" value="ball"/>
+        <!-- <textarea name="v" id="area" cols="30" rows="10"></textarea> -->
+        <input type="submit" value="搜索"  id="sub" /> 
+        <input type="button" value="btn提交"> 
+    </form>  
+    
+    <script>  
+        var obj = document.getElementById('myform'); 
+        var area = document.getElementById('area'); 
+        var sub=document.getElementById('sub'); 
+        obj.onsubmit = function(){  
+            alert('onsubmit');  
+            //return false;  
+        };
+       /* area.onkeydown=function (event){
+             event = event || window.event;
+            if (event.keyCode == 45) {
+                //insert键 控制提交人工答案
+                console.log('提交'); 
+                obj.submit();             
+            } 
+            console.log('textarea 提交');
+            
+        };  */
+        /*sub.onclick=function(){
+            alert('onclick submit');
+        }*/
+        //input type =text,按回车键自动提交 
+        //但textarea按enter键是换行不是自动提交，我们可以绑定insert键或者ctrl+enter组合键等提交
+        //在input输入框中按enter键相当于是进行了submit事件，提交了信息(有表单myform的submit事件)
+        //点击submit按键，既有sub搜索键的click事件也有表单myform的submit事件
+       
+       /* obj.submit(function(){
+            return false;
+            alert('submit');
+        }); */
+    </script>  
+
+    <!-- <form action="text.action" id="myForm" method="get">
+        <input type="text" name="txt1" value="12">
+        <input type="text" name="txt2" value="13">
+        <input type="submit" id="a" value="submit" name='sub' onclick="alert('heh')">
+        <input type="button" id="b" value="onclick_submit" name='btn_sub' onclick="document.forms[0].submit();fun();">
+    </form>
+    <script>
+    function fun(){
+        alert('form_submit');
+    }
+    
+    </script> -->
+</body>
+
+</html> 
